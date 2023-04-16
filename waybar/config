@@ -1,0 +1,153 @@
+{
+    "layer": "top", // Waybar at top layer
+    "output": "HDMI-A-1",
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 18, // Waybar height (to be removed for auto height)
+    "spacing": 15, // Gaps between modules (4px)
+    "width": 1680,
+    "margin-top": 4,
+    "margin-bottom": -12,
+
+    // Choose the order of the modules
+    "modules-left": [
+  "custom/leftside",
+  "custom/launcher",
+  "wlr/workspaces",
+  "custom/middle",
+  "cpu",
+  "memory",
+  "temperature",
+  "custom/rightside",
+        ],
+
+    "modules-center": [
+  "custom/leftside",
+  "clock",
+  "custom/spotify",
+  "custom/rightside",
+        ],
+
+    "modules-right": [
+  "custom/leftside",
+  "custom/updates",
+  "network",
+  "pulseaudio",
+  "tray",
+  "custom/power",
+  "custom/rightside",
+  ],
+
+    // Modules configuration
+    "wlr/workspaces": {
+        "spacing": 20,
+        "all-outputs": true,
+        "sort-by-number": true,
+        "on-click": "activate",
+        "sort-by-number": true,
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "format": "{name}: {icon}  ",
+        "format-icons": {
+            "urgent": "",
+            "active": "",
+            "default": "",
+        },
+    },
+
+    "custom/launcher":{
+        "format": " "
+    },
+
+    "custom/leftside":{
+        "format":" ",
+    },
+    "custom/rightside":{
+        "format":" ",
+    },
+    "custom/middle":{
+        "format":" ",
+    },
+
+    "hyprland/window": {
+        "format": "➡ {}",
+        "separate-outputs": true
+    },
+
+    "tray": {
+        "icon-size": 15,
+        "spacing": 8,
+    },
+
+    "clock": {
+        "timezone": "Europe/Berlin",
+        "interval": 1,
+        "format": "{:  %a %d %b | %I:%M %p}",
+        "tooltip": true,
+        "tooltip-format": "<big>{:%B %Y \t}</big>\n<tt>{calendar}</tt>",
+    },
+
+    "cpu": {
+  "interval": 15,
+        "format": "  {usage}%",
+        "tooltip": false
+    },
+
+    "memory": {
+  "interval": 30,
+        "format": "  {}%",
+        "tooltip": false
+    },
+
+    "temperature": {
+        "thermal-zone": 1,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 90,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": " {temperatureC}°C",
+        // "format-icons": ["", "", ""]
+    },
+
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{signalStrength}%  ",
+        "format-ethernet": " {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname} on {essid} via {gwaddr} 󰈀",
+        "format-linked": "No IP  󰈀",
+        "format-disconnected": "Disconnected  ⚠",
+        "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
+    },
+
+    "pulseaudio": {
+        "scroll-step": 5, // %, can be a float
+        "format": "{icon} {volume}%",
+        "format-muted": "h",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "custom/power":{
+        "format": " ",
+        "on-click": "$HOME/.config/scripts/dmenu/dm-sysstate.sh",
+
+    },
+    "custom/updates":{
+        "format": "{} Update(s)",
+        "exec": "checkupdates | wc -l",
+        "exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
+        "interval": 15,
+        "on-click": "alacritty -e paru -Syu && notify-send 'The system has been updated' "
+    },
+    "custom/spotify": {
+        "interval": 1,
+        "return-type": "json",
+        "exec": "~/.config/waybar/spotify.sh",
+        "exec-if": "pgrep spotify",
+        "escape": true
+    },
+
+    "custom/tray": {
+        "format": "hello"
+    }
+}
